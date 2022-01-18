@@ -1,0 +1,16 @@
+# depslib dependency file v1.0
+1556198089 source:d:\csc01a1\computer science pracs 2019\kathard_p_201805957_csc01a1_p08\utopia\libutopia.cpp
+	"libUtopia.h"
+
+1556202336 d:\csc01a1\computer science pracs 2019\kathard_p_201805957_csc01a1_p08\utopia\libutopia.h
+	<cstdlib>
+	<iostream>
+	<ctime>
+	<sstream>
+	<cmath>
+	<iomanip>
+
+1556202013 source:d:\csc01a1\computer science pracs 2019\kathard_p_201805957_csc01a1_p08\utopia\main.cpp
+	"libUtopia.h"
+	<iostream>
+
