@@ -1,0 +1,3 @@
+This is a project I created using Java.
+It's a client that uses SMTP protocol to send an email to a server(I used Papercut for the server).
+The GUI was created using JavaFX.
