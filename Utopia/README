@@ -1,3 +1,4 @@
-This was a small game I made using C++. On a 2D grid the player(represented with a 'P') uses the 'wasd' to move to different clues(reoresented by a 'C').
+This was a small game I made using C++. 
+On a 2D grid the player(represented with a 'P') uses the 'wasd' buttons to move to different clues(reoresented by a 'C').
 Once ontop of a clue, the player can investigate it to see if the treasure was found(represented by '$').
 If the treasure is not found in the given amount of moves, the game ends.
