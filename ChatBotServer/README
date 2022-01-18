@@ -1,0 +1,4 @@
+This is a project I created using Java.
+It is a server that awaits a client connection once run(client can be any of your choosing).
+It then recieves messages from the client in the form of questions.
+Once 4 questions have been asked the server terminates.
