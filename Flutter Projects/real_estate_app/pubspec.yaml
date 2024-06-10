@@ -1,0 +1,81 @@
+name: dtt_assessment
+description: "A new Flutter project."
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.4.1 <4.0.0'
+
+dependencies:
+  flutte
+    sdk: flutter
+
+  cupertino_icons: ^1.0.6
+  #For adaptive sizing
+  sizer: ^2.0.15
+  #For working with the provided svg assets
+  flutter_svg: ^0.22.0
+  #For location permissions
+  geolocator: ^9.0.2
+  #For api calls
+  http: ^1.2.1
+  #For formatting numbers. Also includes a date formatter
+  intl: ^0.17.0
+  #For launching urls
+  url_launcher: ^6.2.6
+  #To integrate a Google Maps widget
+  google_maps_flutter: ^2.6.1
+  #For launching maps apps
+  maps_launcher: ^2.2.1
+  #For generating random lorem ipsum text
+  lorem_ipsum: ^0.0.3
+  #For 3d model
+  flutter_cube: ^0.1.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^3.0.0
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/Images/
+    - assets/icons/
+    - assets/Images/dtt_banner/xxxhdpi/
+    - assets/house-floor-plan-v2/source/AllFloors/
+
+  fonts:
+    - family: Gotham SSm
+      fonts:
+        - asset: assets/Fonts/Gotham SSm/GothamSSm-Bold.otf
+          weight: 700
+        - asset: assets/Fonts/Gotham SSm/GothamSSm-BoldItalic.otf
+          style: italic
+          weight: 700
+        - asset: assets/Fonts/Gotham SSm/GothamSSm-Book.otf
+          weight: 400
+        - asset: assets/Fonts/Gotham SSm/GothamSSm-BookItalic.otf
+          style: italic
+          weight: 400
+        - asset: assets/Fonts/Gotham SSm/GothamSSm-Light.otf
+          weight: 200
+        - asset: assets/Fonts/Gotham SSm/GothamSSm-LightItalic.otf
+          style: italic
+          weight: 200
+        - asset: assets/Fonts/Gotham SSm/GothamSSm-Medium.otf
+          weight: 300
+        - asset: assets/Fonts/Gotham SSm/GothamSSm-MediumItalic.otf
+          style: italic
+          weight: 300
+        - asset: assets/Fonts/Gotham SSm/GothamSSm-XLight.otf
+          weight: 100
+        - asset: assets/Fonts/Gotham SSm/GothamSSm-XLightItalic.otf
+          style: italic
+          weight: 100
+
