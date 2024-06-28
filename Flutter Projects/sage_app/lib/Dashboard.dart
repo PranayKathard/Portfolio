@@ -1,5 +1,3 @@
-import 'dart:ui';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sage/ProdCategory.dart';
 import 'package:sage/checkOut.dart';
@@ -17,12 +15,11 @@ import 'package:toggle_switch/toggle_switch.dart';
 import 'interface.dart';
 import 'src/Models/product.dart';
 import 'src/Services/service.dart';
-import 'src/Services/application_service.dart';
 
 class Dashboard extends StatefulWidget {
   final String pageTitle;
 
-  Dashboard({Key key, this.pageTitle}) : super(key: key);
+  Dashboard({required Key key, required this.pageTitle}) : super(key: key);
 
   @override
   _DashboardState createState() => _DashboardState();
@@ -33,7 +30,9 @@ class _DashboardState extends State<Dashboard> {
   int _selectedIndex = 0; //for tabs
   Interface interface = Interface(); //for static user
   ApplicationService as = ApplicationService(); //database
-  Future<List<Product>> specials;
+  late Future<List<Product>> specials;
+
+  get key => null;
 
   @override
   void initState() {
@@ -44,8 +43,8 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     final _tabs = [
-      StoreTab(),
-      CartTab(),
+      StoreTab(key: key,),
+      CartTab(key: key,),
       QuoteTab(),
       profileTab(context),
       settingsTab(context),
@@ -121,10 +120,7 @@ class _DashboardState extends State<Dashboard> {
   BottomNavigationBarItem bottomNavBarItem(IconData i, String s) {
     return BottomNavigationBarItem(
         icon: Icon(i),
-        title: Text(
-          s,
-          style: tabLinkStyle,
-        ));
+        label: s);
   }
 
   ListTile burgerMenuListTile(BuildContext context, String heading,
@@ -190,7 +186,7 @@ class _DashboardState extends State<Dashboard> {
 ////////////////////////////////////////////////////////////////////////////////
 
 class StoreTab extends StatefulWidget {
-  StoreTab({Key key}) : super(key: key);
+  StoreTab({required Key key}) : super(key: key);
   @override
   _StoreTabState createState() => _StoreTabState();
 }
@@ -200,7 +196,7 @@ class _StoreTabState extends State<StoreTab> {
     return await ApplicationService.getSpecials();
   }
 
-  Future<List<Product>> specials;
+  late Future<List<Product>> specials;
   @override
   void initState() {
     super.initState();
@@ -231,23 +227,23 @@ class _StoreTabState extends State<StoreTab> {
                     itemBuilder: (context, index) {
                       return Center(
                         child: productItem(
-                          snapshot.data[index],
+                          snapshot.data![index],
                           onTapped: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) {
                                   return new ProductPage(
-                                    productData: snapshot.data[index],
+                                    productData: snapshot.data![index],
                                   );
                                 },
                               ),
                             );
-                          },
+                          }, imgWidth: 0.0,
                         ),
                       );
                     },
-                    itemCount: snapshot.data.length,
+                    itemCount: snapshot.data?.length,
                     gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 5),
                   ),
@@ -410,7 +406,7 @@ Widget settingsTab(BuildContext context) {
                       minWidth: 50.0,
                       minHeight: 30.0,
                       fontSize: 10.0,
-                      activeBgColor: Colors.green,
+                      activeBgColor: [Colors.green],
                       activeFgColor: Colors.white,
                       labels: ['Yes', 'No'],
                       onToggle: (index) {
@@ -469,7 +465,7 @@ Widget settingsTab(BuildContext context) {
 ////////////////////////////////////////////////////////////////////////////////
 
 class CartTab extends StatefulWidget {
-  CartTab({Key key}) : super(key: key);
+  CartTab({required Key key}) : super(key: key);
 
   @override
   _CartTabState createState() => _CartTabState();
@@ -477,7 +473,7 @@ class CartTab extends StatefulWidget {
 
 class _CartTabState extends State<CartTab>
     with AutomaticKeepAliveClientMixin<CartTab> {
-  Future<List<CartItem>> items;
+  late Future<List<CartItem>> items;
   //double total;
   @override
   void initState() {
@@ -521,7 +517,7 @@ class _CartTabState extends State<CartTab>
                 case ConnectionState.done:
                   // ApplicationService.calculateTotal();
                   //total = Interface.cart.getTotal;
-                  if ((!snapshot.hasData) || (snapshot.data.length == 0)) {
+                  if ((!snapshot.hasData) || (snapshot.data?.length == 0)) {
                     return Center(
                       child: Padding(
                         padding: const EdgeInsets.only(top: 200.0),
@@ -569,7 +565,7 @@ class _CartTabState extends State<CartTab>
                                       margin: EdgeInsets.all(10.0),
                                       child: Text(
                                         '\R' +
-                                            snapshot.data[index].subtotal
+                                            snapshot.data![index].subtotal
                                                 .toStringAsFixed(2),
                                         style: TextStyle(
                                           fontSize: 16.0,
@@ -584,7 +580,7 @@ class _CartTabState extends State<CartTab>
                                         decoration: BoxDecoration(
                                           image: DecorationImage(
                                             image: AssetImage("images/" +
-                                                snapshot.data[index].pImage),
+                                                snapshot.data![index].pImage),
                                             fit: BoxFit.fill,
                                           ),
                                           borderRadius:
@@ -597,7 +593,7 @@ class _CartTabState extends State<CartTab>
                                         Container(
                                           width: 400,
                                           child: Text(
-                                            snapshot.data[index].pName,
+                                            snapshot.data![index].pName,
                                             style: TextStyle(
                                               fontSize: 17.0,
                                               fontWeight: FontWeight.bold,
@@ -628,10 +624,10 @@ class _CartTabState extends State<CartTab>
                                                       ApplicationService
                                                           .removeItemFromCart(
                                                               snapshot
-                                                                  .data[index]
+                                                                  .data![index]
                                                                   .prodID,
                                                               snapshot
-                                                                  .data[index]
+                                                                  .data![index]
                                                                   .cartID);
                                                       /*snapshot.data[index]
                                                           .quantity -= 1;*/
@@ -650,7 +646,7 @@ class _CartTabState extends State<CartTab>
                                                 ),
                                                 SizedBox(width: 20.0),
                                                 Text(
-                                                  snapshot.data[index].quantity
+                                                  snapshot.data![index].quantity
                                                       .toString(),
                                                   style: TextStyle(
                                                     fontSize: 20.0,
@@ -664,10 +660,10 @@ class _CartTabState extends State<CartTab>
                                                       ApplicationService
                                                           .addItemToCart(
                                                               snapshot
-                                                                  .data[index]
+                                                                  .data![index]
                                                                   .cartID,
                                                               snapshot
-                                                                  .data[index]
+                                                                  .data![index]
                                                                   .prodID,
                                                               1);
                                                       // Service.updateProduct(
@@ -700,7 +696,7 @@ class _CartTabState extends State<CartTab>
                                 ),
                               );
                             },
-                            itemCount: snapshot.data.length,
+                            itemCount: snapshot.data!.length,
                           ),
                         ),
                         Container(
@@ -721,7 +717,7 @@ class _CartTabState extends State<CartTab>
                               Center(
                                 child: Padding(
                                   padding: const EdgeInsets.all(15),
-                                  child: RaisedButton(
+                                  child: FloatingActionButton(
                                     child: Text(
                                       'checkout',
                                       style: TextStyle(
@@ -767,7 +763,6 @@ class _CartTabState extends State<CartTab>
                       ],
                     );
                   }
-                  break;
                 default:
                   return Text('default');
               }
@@ -804,8 +799,8 @@ class _QuoteTabState extends State<QuoteTab> {
   Interface interface = Interface();
   final descriptionController = TextEditingController();
   final phoneController = TextEditingController();
-  List<String> specList;
-  String descriptionString;
+  late List<String> specList;
+  late String descriptionString;
   String screenDrop = 'any',
       processorDrop = 'any',
       memoryDrop = 'any',
@@ -923,9 +918,9 @@ class _QuoteTabState extends State<QuoteTab> {
                           height: 2,
                           color: Colors.green,
                         ),
-                        onChanged: (String newValue) {
+                        onChanged: (String? newValue) {
                           setState(() {
-                            category = newValue;
+                            category = newValue!;
                             setBool(category);
                             screenDrop = 'any';
                             processorDrop = 'any';
@@ -1006,7 +1001,7 @@ class _QuoteTabState extends State<QuoteTab> {
                       case ConnectionState.done:
                         if ((snapshot.data == null) ||
                             (category == 'none') ||
-                            (snapshot.data.length == 0)) {
+                            (snapshot.data?.length == 0)) {
                           return Center(
                             child: Padding(
                               padding: const EdgeInsets.only(top: 100.0),
@@ -1043,14 +1038,14 @@ class _QuoteTabState extends State<QuoteTab> {
                               itemBuilder: (context, index) {
                                 return Center(
                                   child: productItem2(
-                                    snapshot.data[index],
+                                    snapshot.data![index],
                                     onTapped: () {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) {
                                             return new ProductPage(
-                                              productData: snapshot.data[index],
+                                              productData: snapshot.data![index],
                                             );
                                           },
                                         ),
@@ -1059,14 +1054,13 @@ class _QuoteTabState extends State<QuoteTab> {
                                   ),
                                 );
                               },
-                              itemCount: snapshot.data.length,
+                              itemCount: snapshot.data!.length,
                               gridDelegate:
                                   new SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: 3),
                             ),
                           );
                         }
-                        break;
                       default:
                         return Text('default');
                     }
@@ -1265,9 +1259,9 @@ class _QuoteTabState extends State<QuoteTab> {
                           height: 2,
                           color: Colors.green,
                         ),
-                        onChanged: (String newValue) {
+                        onChanged: (String? newValue) {
                           setState(() {
-                            screenDrop = newValue;
+                            screenDrop = newValue!;
                             setSpecList();
                           });
                         },
@@ -1303,9 +1297,9 @@ class _QuoteTabState extends State<QuoteTab> {
                             height: 2,
                             color: Colors.green,
                           ),
-                          onChanged: (String newValue) {
+                          onChanged: (String? newValue) {
                             setState(() {
-                              processorDrop = newValue;
+                              processorDrop = newValue!;
                               setSpecList();
                             });
                           },
@@ -1342,9 +1336,9 @@ class _QuoteTabState extends State<QuoteTab> {
                             height: 2,
                             color: Colors.green,
                           ),
-                          onChanged: (String newValue) {
+                          onChanged: (String? newValue) {
                             setState(() {
-                              memoryDrop = newValue;
+                              memoryDrop = newValue!;
                               setSpecList();
                             });
                           },
@@ -1381,9 +1375,9 @@ class _QuoteTabState extends State<QuoteTab> {
                             height: 2,
                             color: Colors.green,
                           ),
-                          onChanged: (String newValue) {
+                          onChanged: (String? newValue) {
                             setState(() {
-                              hddDrop = newValue;
+                              hddDrop = newValue!;
                               setSpecList();
                             });
                           },
@@ -1424,9 +1418,9 @@ class _QuoteTabState extends State<QuoteTab> {
                             height: 2,
                             color: Colors.green,
                           ),
-                          onChanged: (String newValue) {
+                          onChanged: (String? newValue) {
                             setState(() {
-                              lteDrop = newValue;
+                              lteDrop = newValue!;
                               setSpecList();
                             });
                           },
@@ -1463,9 +1457,9 @@ class _QuoteTabState extends State<QuoteTab> {
                             height: 2,
                             color: Colors.green,
                           ),
-                          onChanged: (String newValue) {
+                          onChanged: (String? newValue) {
                             setState(() {
-                              graphicsDrop = newValue;
+                              graphicsDrop = newValue!;
                               setSpecList();
                             });
                           },
@@ -1521,9 +1515,9 @@ class _QuoteTabState extends State<QuoteTab> {
                         height: 2,
                         color: Colors.green,
                       ),
-                      onChanged: (String newValue) {
+                      onChanged: (String? newValue) {
                         setState(() {
-                          screenDrop = newValue;
+                          screenDrop = newValue!;
                           setSpecList();
                         });
                       },
@@ -1559,9 +1553,9 @@ class _QuoteTabState extends State<QuoteTab> {
                           height: 2,
                           color: Colors.green,
                         ),
-                        onChanged: (String newValue) {
+                        onChanged: (String? newValue) {
                           setState(() {
-                            bagBrandDrop = newValue;
+                            bagBrandDrop = newValue!;
                             setSpecList();
                           });
                         },
@@ -1598,9 +1592,9 @@ class _QuoteTabState extends State<QuoteTab> {
                           height: 2,
                           color: Colors.green,
                         ),
-                        onChanged: (String newValue) {
+                        onChanged: (String? newValue) {
                           setState(() {
-                            bagColorDrop = newValue;
+                            bagColorDrop = newValue!;
                             setSpecList();
                           });
                         },
@@ -1655,9 +1649,9 @@ class _QuoteTabState extends State<QuoteTab> {
                         height: 2,
                         color: Colors.green,
                       ),
-                      onChanged: (String newValue) {
+                      onChanged: (String? newValue) {
                         setState(() {
-                          storeSizeDrop = newValue;
+                          storeSizeDrop = newValue!;
                           setSpecList();
                           print(specList);
                         });
@@ -1712,9 +1706,9 @@ class _QuoteTabState extends State<QuoteTab> {
                         height: 2,
                         color: Colors.green,
                       ),
-                      onChanged: (String newValue) {
+                      onChanged: (String? newValue) {
                         setState(() {
-                          printBrandDrop = newValue;
+                          printBrandDrop = newValue!;
                           setSpecList();
                         });
                       },
@@ -1750,9 +1744,9 @@ class _QuoteTabState extends State<QuoteTab> {
                           height: 2,
                           color: Colors.green,
                         ),
-                        onChanged: (String newValue) {
+                        onChanged: (String? newValue) {
                           setState(() {
-                            printTypeDrop = newValue;
+                            printTypeDrop = newValue!;
                             setSpecList();
                           });
                         },
@@ -1807,9 +1801,9 @@ class _QuoteTabState extends State<QuoteTab> {
                         height: 2,
                         color: Colors.green,
                       ),
-                      onChanged: (String newValue) {
+                      onChanged: (String? newValue) {
                         setState(() {
-                          otherTypeDrop = newValue;
+                          otherTypeDrop = newValue!;
                           setSpecList();
                         });
                       },
@@ -1862,7 +1856,7 @@ Widget profileTab(BuildContext context) {
                 },
                 style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.white)),
+                        WidgetStateProperty.all<Color>(Colors.white)),
                 child: Row(
                   children: [
                     Icon(Fryo.book, color: Colors.black),
@@ -1930,7 +1924,7 @@ Widget profileTab(BuildContext context) {
               },
               style: ButtonStyle(
                   backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.white)),
+                      WidgetStateProperty.all<Color>(Colors.white)),
               child: Center(
                 child: Text(
                   'Edit Details',
@@ -1954,7 +1948,7 @@ Widget profileTab(BuildContext context) {
               },
               style: ButtonStyle(
                   backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.white)),
+                      WidgetStateProperty.all<Color>(Colors.white)),
               child: Center(
                 child: Text(
                   'Sign Out',

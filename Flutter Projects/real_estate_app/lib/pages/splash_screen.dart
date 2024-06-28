@@ -1,4 +1,4 @@
-import 'package:dtt_assessment/home_page.dart';
+import 'package:dtt_assessment/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sizer/sizer.dart';
@@ -18,7 +18,7 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
 
-    //Remove overlays
+    //Remove overlays while loading
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
 
     //Slight delay then move to Home page

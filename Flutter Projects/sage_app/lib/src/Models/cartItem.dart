@@ -1,22 +1,22 @@
 import 'package:sage/src/Models/product.dart';
 
 class CartItem {
-  int itemID;
-  int cartID;
-  int prodID;
-  int quantity;
-  int ordered;
-  double subtotal;
-  String pImage;
-  String pName;
+  late int itemID;
+  late int cartID;
+  late int prodID;
+  late int quantity;
+  late int ordered;
+  late double subtotal;
+  late String pImage;
+  late String pName;
 
   CartItem(
-      {this.itemID,
-      this.cartID,
-      this.prodID,
-      this.quantity,
-      this.subtotal,
-      this.ordered});
+      {required this.itemID,
+      required this.cartID,
+      required this.prodID,
+      required this.quantity,
+      required this.subtotal,
+      required this.ordered});
 
   factory CartItem.fromJson(Map<String, dynamic> json) {
     return CartItem(

@@ -1,16 +1,16 @@
 import 'dart:async';
 
-import 'package:dtt_assessment/abstract.dart';
-import 'package:dtt_assessment/floor_plan.dart';
-import 'package:dtt_assessment/home_page.dart';
-import 'package:dtt_assessment/service.dart';
+import 'package:dtt_assessment/pages/home.dart';
+import 'package:dtt_assessment/widgets/abstract.dart';
+import 'package:dtt_assessment/pages/floor_plan.dart';
+import 'package:dtt_assessment/logic/service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:sizer/sizer.dart';
 
-import 'house.dart';
+import '../object/house.dart';
 
 class HouseDetail extends StatefulWidget {
   //Single house gets passed as parameter
@@ -33,12 +33,13 @@ class _HouseDetailState extends State<HouseDetail> {
   Widget build(BuildContext context) {
     //Format the price
     String formattedPrice = NumberFormat.decimalPattern().format(int.parse(widget.house.price));
-    //Centre map on pin
+    //Centre map on latitude and longitude
     LatLng center = LatLng(double.parse(widget.house.latitude), double.parse(widget.house.latitude));
 
     return Scaffold(
       backgroundColor: const Color(0xffF7F7F7),
       body: CustomScrollView(
+        //Sliver used for collapsing app bar effect
         slivers: [
           SliverAppBar(
             leading: Align(
@@ -46,6 +47,7 @@ class _HouseDetailState extends State<HouseDetail> {
               child: SizedBox(
                 height: 30,
                 width: 30,
+                //Back button
                 child: GestureDetector(
                   child: backSVG,
                   onTap: () {
@@ -69,7 +71,7 @@ class _HouseDetailState extends State<HouseDetail> {
                 width: double.maxFinite,
               ),
             ),
-            //To give the white container curved edges at the top
+            //Bottom component of app bar to give the white container curved edges at the top
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(0),
               child: ClipRRect(
@@ -81,6 +83,7 @@ class _HouseDetailState extends State<HouseDetail> {
               ),
             ),
           ),
+          //White container with information and map
           SliverToBoxAdapter(
             child: Container(
               color: const Color(0xffF7F7F7),
@@ -89,7 +92,7 @@ class _HouseDetailState extends State<HouseDetail> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    /*** Price and metrics ***/
+                    /*Price and metrics*/
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -127,6 +130,7 @@ class _HouseDetailState extends State<HouseDetail> {
                         SizedBox(
                           width: 100,
                           height: 25,
+                          //Open floor plan page
                           child: FloatingActionButton(onPressed: (){
                             Navigator.push(
                                 context,
@@ -145,7 +149,7 @@ class _HouseDetailState extends State<HouseDetail> {
                     Text(widget.house.description, style: body,),
                     const SizedBox(height: 20,),
                     const Text('Location', style: title02,),
-                    /*** Map ***/
+                    /*Map*/
                     Center(
                       child: Padding(
                         padding: const EdgeInsets.only(top: 15.0, bottom: 15.0),
@@ -162,11 +166,11 @@ class _HouseDetailState extends State<HouseDetail> {
                               Marker(
                                 markerId: const MarkerId('SF'),
                                 position: center,
+                                onTap: (){
+                                  //Launch default map app when marker is clicked
+                                  MapsLauncher.launchCoordinates(center.latitude, center.longitude);
+                                }
                               ),
-                            },
-                            //Launch default map app when clicked
-                            onTap: (centre) {
-                              MapsLauncher.launchCoordinates(center.latitude, center.longitude);
                             },
                           ),
                         ),

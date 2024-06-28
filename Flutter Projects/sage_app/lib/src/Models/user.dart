@@ -5,7 +5,7 @@ class User {
   String password;
   String userType;
 
-  User({this.ID, this.email, this.name, this.password, this.userType});
+  User({required this.ID, required this.email, required this.name, required this.password, required this. userType});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(

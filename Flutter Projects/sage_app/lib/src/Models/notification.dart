@@ -4,7 +4,7 @@ class NotificationModel {
   String header;
   String note;
 
-  NotificationModel({this.id, this.user_id, this.header, this.note});
+  NotificationModel({required this.id, required this.user_id, required this.header, required this.note});
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) {
     return NotificationModel(

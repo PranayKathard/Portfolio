@@ -33,6 +33,10 @@ dependencies:
   lorem_ipsum: ^0.0.3
   #For 3d model
   flutter_cube: ^0.1.1
+  #For seamless fading when scrolling through houses on the home page
+  fading_edge_scrollview: ^4.1.1
+  #For state management
+  flutter_bloc: ^8.1.6
 
 dev_dependencies:
   flutter_test:

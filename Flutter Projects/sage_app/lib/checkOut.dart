@@ -1,18 +1,10 @@
-import 'dart:html' as html;
-
 import 'package:flutter/foundation.dart';
-import 'package:sage/src/Models/user.dart';
 import 'package:sage/src/Payment.dart';
 import 'package:sage/src/shared/fryo_icons.dart';
-import 'package:flutter_paystack/flutter_paystack.dart';
-import 'package:sage/webPay.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-import 'Dashboard.dart';
 import 'package:flutter/material.dart';
 import 'WebPayment.dart';
 import 'interface.dart';
 import 'database_helper.dart';
-import 'package:js/js.dart' as js;
 
 class checkout extends StatefulWidget {
   @override
@@ -64,12 +56,12 @@ class _checkoutState extends State<checkout> {
                         labelText: 'City ... eg Durban',
                       ),
                       validator: (input) {
-                        if (input.isEmpty) {
+                        if (input!.isEmpty) {
                           return 'field is empty please enter a city';
                         }
                       },
                       onSaved: (input) =>
-                          Interface.address += "City: " + input + ";",
+                          Interface.address += "City: " + input! + ";",
                     ),
                   ),
                 ),
@@ -82,12 +74,12 @@ class _checkoutState extends State<checkout> {
                         labelText: 'Street Address eg.. 12 Bedford View',
                       ),
                       validator: (input) {
-                        if (input.isEmpty) {
+                        if (input!.isEmpty) {
                           return 'field is empty please enter your street address';
                         }
                       },
                       onSaved: (input) =>
-                          Interface.address += "Street: " + input + ";",
+                          Interface.address += "Street: " + input! + ";",
                     ),
                   ),
                 ),
@@ -100,12 +92,12 @@ class _checkoutState extends State<checkout> {
                         labelText: 'Apt/Suite/Other',
                       ),
                       validator: (input) {
-                        if (input.isEmpty) {
+                        if (input!.isEmpty) {
                           return 'field is empty please enter an option';
                         }
                       },
                       onSaved: (input) => Interface.address +=
-                          "Apt/Suite/Other: " + input + ";",
+                          "Apt/Suite/Other: " + input! + ";",
                     ),
                   ),
                 ),
@@ -118,12 +110,13 @@ class _checkoutState extends State<checkout> {
                         labelText: 'Zip Code',
                       ),
                       validator: (input) {
-                        if (input.isEmpty) {
+                        if (input!.isEmpty) {
                           return 'field is empty please enter a zip code';
                         }
+                        return null;
                       },
                       onSaved: (input) =>
-                          Interface.address += "Zip Code: " + input + ";",
+                          Interface.address += "Zip Code: " + input! + ";",
                     ),
                   ),
                 ),
@@ -136,21 +129,22 @@ class _checkoutState extends State<checkout> {
                         labelText: 'Province eg.. Kwa-Zulu-Natal',
                       ),
                       validator: (input) {
-                        if (input.isEmpty) {
+                        if (input!.isEmpty) {
                           return 'field is empty please enter a province';
                         }
+                        return null;
                       },
                       onSaved: (input) =>
-                          Interface.address += "Province: " + input + ";",
+                          Interface.address += "Province: " + input! + ";",
                     ),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(15.0),
-                  child: RaisedButton(
+                  child: FloatingActionButton(
                     onPressed: () {
-                      if (_key.currentState.validate()) {
-                        _key.currentState.save();
+                      if (_key.currentState!.validate()) {
+                        _key.currentState!.save();
                         showDialog(
                           context: context,
                           builder: (BuildContext context) => AlertDialog(
@@ -169,7 +163,7 @@ class _checkoutState extends State<checkout> {
                       'Submit Delivery Address',
                       style: TextStyle(color: Colors.white),
                     ),
-                    color: Color(0xff003D59),
+                    backgroundColor: Color(0xff003D59),
                   ),
                 ),
                 Padding(

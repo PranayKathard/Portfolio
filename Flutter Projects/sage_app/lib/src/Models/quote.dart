@@ -4,7 +4,7 @@ class Quote {
   String description = '';
   static int quotes = 0;
 
-  Quote({this.ID, this.description, this.user_id});
+  Quote({required this.ID, required this.description, required this.user_id});
 
   factory Quote.fromJson(Map<String, dynamic> json) {
     return Quote(

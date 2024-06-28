@@ -8,7 +8,7 @@ import '../shared/styles.dart';
 
 Widget productItem(
   Product prod, {
-  double imgWidth,
+  required double imgWidth,
   onLike,
   onTapped,
   bool isProductPage = false,
@@ -22,8 +22,8 @@ Widget productItem(
         Container(
             width: 280,
             height: 280,
-            child: RaisedButton(
-                color: white,
+            child: FloatingActionButton(
+                backgroundColor: white,
                 elevation: (isProductPage) ? 20 : 12,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5)),

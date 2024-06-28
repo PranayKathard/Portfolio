@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 class House{
   //Attributes
   late String id;
@@ -30,7 +28,7 @@ class House{
     required this.longitude,
     required this.createdDate});
 
-  //JSON string handling
+  //Parse JSON API result into House object
   factory House.fromJson(Map<String, dynamic> json) {
     return House(
       id: json['id'].toString(),

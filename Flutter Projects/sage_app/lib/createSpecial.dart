@@ -3,7 +3,7 @@ import 'package:sage/src/Models/product.dart';
 import 'package:sage/src/shared/colors.dart';
 import 'package:sage/src/shared/fryo_icons.dart';
 import 'package:flutter/material.dart';
-import 'src/Services/service.dart';
+import 'package:sage/src/shared/styles.dart';
 import 'src/Services/application_service.dart';
 
 class createSpecial extends StatefulWidget {
@@ -13,7 +13,7 @@ class createSpecial extends StatefulWidget {
 
 class _createSpecialState extends State<createSpecial> {
   static const historyLength = 5;
-  Future<List<Product>> products;
+  late Future<List<Product>> products;
 
   // Future<List<Product>> _getProds() async {
   //   return await ApplicationService.fetchForDelete(s);
@@ -21,14 +21,16 @@ class _createSpecialState extends State<createSpecial> {
 
   List<String> _searchHistory = [];
 
-  List<String> filteredSearchHistory;
+  late List<String> filteredSearchHistory;
 
-  String selectedTerm;
+  late String selectedTerm;
+
+  get key => null;
 
   List<String> filterSearchTerms({
-    @required String filter,
+    required String filter,
   }) {
-    if (filter != null && filter.isNotEmpty) {
+    if (filter.isNotEmpty) {
       return _searchHistory.reversed
           .where((term) => term.startsWith(filter))
           .toList();
@@ -48,12 +50,12 @@ class _createSpecialState extends State<createSpecial> {
       _searchHistory.removeRange(0, _searchHistory.length - historyLength);
     }
 
-    filteredSearchHistory = filterSearchTerms(filter: null);
+    filteredSearchHistory = filterSearchTerms(filter: '');
   }
 
   void deleteSearchTerm(String term) {
     _searchHistory.removeWhere((t) => t == term);
-    filteredSearchHistory = filterSearchTerms(filter: null);
+    filteredSearchHistory = filterSearchTerms(filter: '');
   }
 
   void putSearchTermFirst(String term) {
@@ -61,13 +63,13 @@ class _createSpecialState extends State<createSpecial> {
     addSearchTerm(term);
   }
 
-  FloatingSearchBarController controller;
+  late FloatingSearchBarController controller;
 
   @override
   void initState() {
     super.initState();
     controller = FloatingSearchBarController();
-    filteredSearchHistory = filterSearchTerms(filter: null);
+    filteredSearchHistory = filterSearchTerms(filter: '');
     //products = _getProds();
   }
 
@@ -91,14 +93,14 @@ class _createSpecialState extends State<createSpecial> {
         body: FloatingSearchBarScrollNotifier(
           child: SearchResultsListView(
             searchTerm: selectedTerm,
-            prods: products,
+            prods: products, key: key,
           ),
         ),
         transition: CircularFloatingSearchBarTransition(),
         physics: BouncingScrollPhysics(),
         title: Text(
-          selectedTerm ?? '',
-          style: Theme.of(context).textTheme.headline6,
+          selectedTerm,
+          style: h6,
         ),
         hint: 'Search...',
         actions: [
@@ -134,7 +136,7 @@ class _createSpecialState extends State<createSpecial> {
                         'Search for a product to add a special',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.caption,
+                        style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     );
                   } else if (filteredSearchHistory.isEmpty) {
@@ -193,35 +195,17 @@ class _createSpecialState extends State<createSpecial> {
 
 class SearchResultsListView extends StatelessWidget {
   final String searchTerm;
-  Future<List<Product>> prods;
-  TextEditingController controller = TextEditingController();
+  final Future<List<Product>> prods;
+  final TextEditingController controller = TextEditingController();
 
   SearchResultsListView({
-    Key key,
-    @required this.searchTerm,
-    this.prods,
+    required Key key,
+    required this.searchTerm,
+    required this.prods,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if (searchTerm == null) {
-      return Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              Icons.search,
-              size: 64,
-            ),
-            Text(
-              'Search for a product to add a special...',
-              style: Theme.of(context).textTheme.headline5,
-            )
-          ],
-        ),
-      );
-    }
-
     return Padding(
       padding: const EdgeInsets.only(top: 80),
       child: Column(
@@ -238,7 +222,7 @@ class SearchResultsListView extends StatelessWidget {
                 case ConnectionState.waiting:
                   return Text('Loading...');
                 case ConnectionState.done:
-                  if (snapshot.data.length == 0) {
+                  if (snapshot.data?.length == 0) {
                     return Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -324,13 +308,13 @@ class SearchResultsListView extends StatelessWidget {
                                                               ],
                                                             ));
                                                   } else {
-                                                    snapshot.data[index]
+                                                    snapshot.data?[index]
                                                             .discount =
                                                         double.parse(
                                                             controller.text);
                                                     ApplicationService
                                                         .setSpecial(snapshot
-                                                            .data[index]);
+                                                            .data![index]);
                                                     Navigator.pop(
                                                         context, 'Confirm');
                                                   }
@@ -341,10 +325,10 @@ class SearchResultsListView extends StatelessWidget {
                                 },
                                 style: ButtonStyle(
                                   backgroundColor:
-                                      MaterialStateProperty.resolveWith<Color>(
-                                    (Set<MaterialState> states) {
+                                      WidgetStateProperty.resolveWith<Color>(
+                                    (Set<WidgetState> states) {
                                       if (states
-                                          .contains(MaterialState.pressed))
+                                          .contains(WidgetState.pressed))
                                         return Colors.white;
                                       return Colors
                                           .white; // Use the component's default.
@@ -356,12 +340,12 @@ class SearchResultsListView extends StatelessWidget {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
-                                      snapshot.data[index].name,
+                                      snapshot.data![index].name,
                                       style: TextStyle(
                                           fontSize: 12, color: Colors.black),
                                     ),
                                     Image.asset(
-                                      "images/" + snapshot.data[index].getImage,
+                                      "images/" + snapshot.data![index].getImage,
                                       width: 50,
                                       height: 50,
                                     ),
@@ -373,10 +357,9 @@ class SearchResultsListView extends StatelessWidget {
                           separatorBuilder: (context, index) => Divider(
                                 color: Colors.white,
                               ),
-                          itemCount: snapshot.data.length),
+                          itemCount: snapshot.data!.length),
                     );
                   }
-                  break;
                 default:
                   return Text('default');
               }

@@ -1,7 +1,6 @@
 //import 'dart:ffi';
 
 import 'package:sage/src/Models/product.dart';
-import 'package:sage/src/Services/application_service.dart';
 import 'package:sage/src/shared/colors.dart';
 import 'package:sage/src/shared/fryo_icons.dart';
 import 'package:sage/src/shared/styles.dart';
@@ -13,7 +12,7 @@ import 'database_helper.dart';
 import 'package:sage/src/Services/service.dart';
 
 class AddProduct extends StatefulWidget {
-  AddProduct({Key key}) : super(key: key);
+  AddProduct({required Key key}) : super(key: key);
 
   @override
   _AddProductState createState() => _AddProductState();
@@ -23,14 +22,16 @@ class _AddProductState extends State<AddProduct> {
   DatabaseHelper helper = DatabaseHelper();
   Interface interface = Interface();
   Product product = Product();
-  String name;
-  String description;
-  double price;
-  String image;
-  int quantity;
-  double discount;
+  late String name;
+  late String description;
+  late double price;
+  late String image;
+  late int quantity;
+  late double discount;
 
   GlobalKey<FormState> _addProdkey = new GlobalKey();
+
+  get key => null;
 
   @override
   Widget build(BuildContext context) {
@@ -59,8 +60,9 @@ class _AddProductState extends State<AddProduct> {
                         if (value == null || value.isEmpty) {
                           return 'Please enter some text';
                         }
+                        return null;
                       },
-                      onSaved: (input) => this.name = input,
+                      onSaved: (input) => this.name = input!,
                     ),
                   ),
                 ),
@@ -75,8 +77,9 @@ class _AddProductState extends State<AddProduct> {
                         if (value == null || value.isEmpty) {
                           return 'Please enter some text';
                         }
+                        return null;
                       },
-                      onSaved: (input) => this.description = input,
+                      onSaved: (input) => this.description = input!,
                     ),
                   ),
                 ),
@@ -91,8 +94,9 @@ class _AddProductState extends State<AddProduct> {
                         if (value == null || value.isEmpty) {
                           return 'Please enter some text';
                         }
+                        return null;
                       },
-                      onSaved: (input) => this.image = input,
+                      onSaved: (input) => this.image = input!,
                     ),
                   ),
                 ),
@@ -107,8 +111,9 @@ class _AddProductState extends State<AddProduct> {
                         if (value == null || value.isEmpty) {
                           return 'Please enter some text';
                         }
+                        return null;
                       },
-                      onSaved: (input) => this.price = double.parse(input),
+                      onSaved: (input) => this.price = double.parse(input!),
                     ),
                   ),
                 ),
@@ -123,8 +128,9 @@ class _AddProductState extends State<AddProduct> {
                         if (value == null || value.isEmpty) {
                           return 'Please enter some text';
                         }
+                        return null;
                       },
-                      onSaved: (input) => this.quantity = int.parse(input),
+                      onSaved: (input) => this.quantity = int.parse(input!),
                     ),
                   ),
                 ),
@@ -139,8 +145,9 @@ class _AddProductState extends State<AddProduct> {
                         if (value == null || value.isEmpty) {
                           return 'Please enter some text';
                         }
+                        return null;
                       },
-                      onSaved: (input) => this.discount = double.parse(input),
+                      onSaved: (input) => this.discount = double.parse(input!),
                     ),
                   ),
                 ),
@@ -182,9 +189,9 @@ class _AddProductState extends State<AddProduct> {
                                       height: 2,
                                       color: Colors.green,
                                     ),
-                                    onChanged: (String newValue) {
+                                    onChanged: (String? newValue) {
                                       setState(() {
-                                        category = newValue;
+                                        category = newValue!;
                                         setBool(category);
                                       });
                                     },
@@ -225,13 +232,13 @@ class _AddProductState extends State<AddProduct> {
                 ),
                 Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: RaisedButton(
+                  child: FloatingActionButton(
                     child: Text(
                       'Add',
                       style: TextStyle(color: Colors.white),
                     ),
-                    color: Color(0xff003D59),
                     onPressed: addProd,
+                    backgroundColor: Color(0xff003D59),
                   ),
                 )
               ],
@@ -326,9 +333,9 @@ class _AddProductState extends State<AddProduct> {
                           height: 2,
                           color: Colors.green,
                         ),
-                        onChanged: (String newValue) {
+                        onChanged: (String? newValue) {
                           setState(() {
-                            screenDrop = newValue;
+                            screenDrop = newValue!;
                           });
                         },
                         items: <String>['13"', '14"', '15"', '17"']
@@ -363,9 +370,9 @@ class _AddProductState extends State<AddProduct> {
                             height: 2,
                             color: Colors.green,
                           ),
-                          onChanged: (String newValue) {
+                          onChanged: (String? newValue) {
                             setState(() {
-                              processorDrop = newValue;
+                              processorDrop = newValue!;
                             });
                           },
                           items: <String>['i3', 'i5', 'i7']
@@ -401,9 +408,9 @@ class _AddProductState extends State<AddProduct> {
                             height: 2,
                             color: Colors.green,
                           ),
-                          onChanged: (String newValue) {
+                          onChanged: (String? newValue) {
                             setState(() {
-                              memoryDrop = newValue;
+                              memoryDrop = newValue!;
                             });
                           },
                           items: <String>['8GB', '16GB', '32GB']
@@ -439,9 +446,9 @@ class _AddProductState extends State<AddProduct> {
                             height: 2,
                             color: Colors.green,
                           ),
-                          onChanged: (String newValue) {
+                          onChanged: (String? newValue) {
                             setState(() {
-                              hddDrop = newValue;
+                              hddDrop = newValue!;
                             });
                           },
                           items: <String>['256 SSD', '512 SSD', '1TB SSD']
@@ -477,9 +484,9 @@ class _AddProductState extends State<AddProduct> {
                             height: 2,
                             color: Colors.green,
                           ),
-                          onChanged: (String newValue) {
+                          onChanged: (String? newValue) {
                             setState(() {
-                              lteDrop = newValue;
+                              lteDrop = newValue!;
                             });
                           },
                           items: <String>['any', 'yes', 'no']
@@ -515,9 +522,9 @@ class _AddProductState extends State<AddProduct> {
                             height: 2,
                             color: Colors.green,
                           ),
-                          onChanged: (String newValue) {
+                          onChanged: (String? newValue) {
                             setState(() {
-                              graphicsDrop = newValue;
+                              graphicsDrop = newValue!;
                             });
                           },
                           items: <String>['onboard', 'dedicated']
@@ -572,9 +579,9 @@ class _AddProductState extends State<AddProduct> {
                         height: 2,
                         color: Colors.green,
                       ),
-                      onChanged: (String newValue) {
+                      onChanged: (String? newValue) {
                         setState(() {
-                          screenDrop = newValue;
+                          screenDrop = newValue!;
                         });
                       },
                       items: <String>['13"', '14"', '15"', '17"']
@@ -609,9 +616,9 @@ class _AddProductState extends State<AddProduct> {
                           height: 2,
                           color: Colors.green,
                         ),
-                        onChanged: (String newValue) {
+                        onChanged: (String? newValue) {
                           setState(() {
-                            bagBrandDrop = newValue;
+                            bagBrandDrop = newValue!;
                           });
                         },
                         items: <String>['targus', 'lenovo']
@@ -647,9 +654,9 @@ class _AddProductState extends State<AddProduct> {
                           height: 2,
                           color: Colors.green,
                         ),
-                        onChanged: (String newValue) {
+                        onChanged: (String? newValue) {
                           setState(() {
-                            bagColorDrop = newValue;
+                            bagColorDrop = newValue!;
                           });
                         },
                         items: <String>['black', 'grey']
@@ -703,9 +710,9 @@ class _AddProductState extends State<AddProduct> {
                         height: 2,
                         color: Colors.green,
                       ),
-                      onChanged: (String newValue) {
+                      onChanged: (String? newValue) {
                         setState(() {
-                          storeSizeDrop = newValue;
+                          storeSizeDrop = newValue!;
                         });
                       },
                       items: <String>['1TB', '2TB', '4TB', '8TB']
@@ -758,9 +765,9 @@ class _AddProductState extends State<AddProduct> {
                         height: 2,
                         color: Colors.green,
                       ),
-                      onChanged: (String newValue) {
+                      onChanged: (String? newValue) {
                         setState(() {
-                          printBrandDrop = newValue;
+                          printBrandDrop = newValue!;
                         });
                       },
                       items: <String>['lexmark']
@@ -795,9 +802,9 @@ class _AddProductState extends State<AddProduct> {
                           height: 2,
                           color: Colors.green,
                         ),
-                        onChanged: (String newValue) {
+                        onChanged: (String? newValue) {
                           setState(() {
-                            printTypeDrop = newValue;
+                            printTypeDrop = newValue!;
                           });
                         },
                         items: <String>['black', 'color']
@@ -851,9 +858,9 @@ class _AddProductState extends State<AddProduct> {
                         height: 2,
                         color: Colors.green,
                       ),
-                      onChanged: (String newValue) {
+                      onChanged: (String? newValue) {
                         setState(() {
-                          otherTypeDrop = newValue;
+                          otherTypeDrop = newValue!;
                         });
                       },
                       items: <String>['keyboard', 'docking station']
@@ -875,8 +882,8 @@ class _AddProductState extends State<AddProduct> {
   }
 
   addProd() async {
-    if (_addProdkey.currentState.validate()) {
-      _addProdkey.currentState.save();
+    if (_addProdkey.currentState!.validate()) {
+      _addProdkey.currentState?.save();
       if (category == 'none') {
         showDialog(
           context: context,
@@ -926,7 +933,7 @@ class _AddProductState extends State<AddProduct> {
         Navigator.push(
           context,
           MaterialPageRoute(builder: (BuildContext context) {
-            return Dashboard();
+            return Dashboard(key: key, pageTitle: 'Dash',);
           }),
         );
         showDialog(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cube/flutter_cube.dart';
 
-import 'abstract.dart';
+import '../widgets/abstract.dart';
 
 class FloorPlan extends StatefulWidget {
   const FloorPlan({super.key});
@@ -15,8 +15,8 @@ class _FloorPlanState extends State<FloorPlan> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    //Set the dynamic object to the .obj floor plan file
     plan = Object(fileName: 'assets/house-floor-plan-v2/source/AllFloors/AllFloors.obj');
   }
 
@@ -29,6 +29,7 @@ class _FloorPlanState extends State<FloorPlan> {
           child: SizedBox(
             height: 30,
             width: 30,
+            //Back button
             child: GestureDetector(
               child: backSVGFloorPlan,
               onTap: () {
@@ -38,6 +39,7 @@ class _FloorPlanState extends State<FloorPlan> {
           ),
         ),
       ),
+      //3d object rendered using Cube
       body: Center(
         child: Cube(
           onSceneCreated: (Scene scene) {

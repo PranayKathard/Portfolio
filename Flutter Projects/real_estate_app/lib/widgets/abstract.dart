@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 //ICONS
 
 final Widget searchSVG = SvgPicture.asset('assets/icons/ic_search.svg', color: const Color(0xff949494));
+final Widget closeSVG = SvgPicture.asset('assets/icons/ic_close.svg', color: const Color(0xff949494));
 final Widget bedSVG = SvgPicture.asset('assets/icons/ic_bed.svg', color: const Color(0xff949494));
 final Widget bathSVG = SvgPicture.asset('assets/icons/ic_bath.svg', color: const Color(0xff949494));
 final Widget sizeSVG = SvgPicture.asset('assets/icons/ic_layers.svg', color: const Color(0xff949494));
@@ -59,6 +60,8 @@ TextSpan textSpan(String text, double fontSize, Color color, FontWeight fw){
   );
 }
 
+//Extracted widget for sliders on filter
+//Usage: home_page
 Widget filterSlider(double value, Function(double) func){
   return Slider(
     value: value,

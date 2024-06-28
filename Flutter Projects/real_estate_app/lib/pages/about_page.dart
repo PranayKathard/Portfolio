@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:dtt_assessment/abstract.dart';
+import 'package:dtt_assessment/widgets/abstract.dart';
 import 'package:lorem_ipsum/lorem_ipsum.dart';
 import 'package:url_launcher/link.dart';
-import 'home_page.dart';
 import 'package:sizer/sizer.dart';
 
 class AboutHouse extends StatefulWidget {
@@ -13,27 +12,6 @@ class AboutHouse extends StatefulWidget {
 }
 
 class _AboutHouseState extends State<AboutHouse> {
-
-  /*BottomNavigationBar*/
-  int _selectedIndex = 1;
-
-  static const List<Widget> _pages = <Widget>[
-    HomePage(),
-    AboutHouse()
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (BuildContext context) {
-            return _pages[_selectedIndex];
-          },
-        ));
-  }
 
   /*TEXT*/
   //Use lorem ipsum plugin to generate random text.
@@ -83,6 +61,7 @@ class _AboutHouseState extends State<AboutHouse> {
                           'by DTT',
                           style: detail,
                         ),
+                       //Blue writing that launches d-tt site
                        Link(
                         uri: Uri.parse('https://www.d-tt.nl'),
                          builder: (BuildContext context, Future<void> Function()? followLink) {
@@ -103,16 +82,6 @@ class _AboutHouseState extends State<AboutHouse> {
             ),
           ),
         ),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: const Color(0xffFFFFFF),
-        onTap: _onItemTapped,
-        currentIndex: _selectedIndex,
-        selectedItemColor: const Color(0xff000000),
-        items: <BottomNavigationBarItem>[
-          bottomNavBarItem(houseSVG, houseActiveSVG),
-          bottomNavBarItem(infoSVG, infoActiveSVG)
-        ],
       ),
     );
   }

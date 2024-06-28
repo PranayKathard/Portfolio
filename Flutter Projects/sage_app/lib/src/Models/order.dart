@@ -2,21 +2,21 @@ import 'package:sage/src/Models/product.dart';
 
 class Order {
 
-  int orderID;
-  String products;
-  int userId;
-  double totalPrice;
-  String address;
-  int completed;
-  List<Product> prods;
+  late int orderID;
+  late String products;
+  late int userId;
+  late double totalPrice;
+  late String address;
+  late int completed;
+  late List<Product> prods;
 
   Order({
-    this.orderID,
-    this.products,
-    this.userId,
-    this.totalPrice,//being total price.
-    this.address,
-    this.completed
+    required this.orderID,
+    required this.products,
+    required this.userId,
+    required this.totalPrice,//being total price.
+    required this.address,
+    required this.completed
   });
 
   factory Order.fromJson(Map<String, dynamic> json) {

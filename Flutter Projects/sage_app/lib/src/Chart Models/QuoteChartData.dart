@@ -5,5 +5,5 @@ class QuoteSeries {
   final int num;
   final charts.Color barColor;
 
-  QuoteSeries({this.category, this.num, this.barColor});
+  QuoteSeries({required this.category, required this.num, required this.barColor});
 }

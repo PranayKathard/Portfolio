@@ -8,9 +8,9 @@ class StockSeries {
   final charts.Color barYellowColor;
 
   StockSeries(
-      {this.prodName,
-      this.numStock,
-      this.barRedColor,
-      this.barGreenColor,
-      this.barYellowColor});
+      {required this.prodName,
+      required this.numStock,
+      required this.barRedColor,
+      required this.barGreenColor,
+      required this.barYellowColor});
 }

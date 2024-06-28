@@ -4,12 +4,12 @@ class Cart {
   int CartID = 0;
   int UserId = 0;
   double total = 0;
-  List<CartItem> items;
+  List<CartItem> items = [];
 
   Cart({
-    this.CartID,
-    this.UserId,
-    this.total, //being total price.
+    required this.CartID,
+    required this.UserId,
+    required this.total, //being total price.
   });
 
   factory Cart.fromJson(Map<String, dynamic> json) {

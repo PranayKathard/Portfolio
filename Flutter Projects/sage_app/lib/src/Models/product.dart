@@ -24,15 +24,15 @@ class Product {
   String specs = '';
 
   Product(
-      {this.ID,
-      this.name,
-      this.description,
-      this.price,
-      this.image,
-      this.quantity,
-      this.category,
-      this.discount,
-      this.specs});
+      {required this.ID,
+      required this.name,
+      required this.description,
+      required this.price,
+      required this.image,
+      required this.quantity,
+      required this.category,
+      required this.discount,
+      required this.specs});
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
